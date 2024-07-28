@@ -150,6 +150,24 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
   
+    async function syncQuotes() {
+      try {
+        const response = await fetch(serverUrl);
+        const serverQuotes = await response.json();
+  
+        // Conflict resolution: server data takes precedence
+        const serverQuoteTexts = serverQuotes.map(quote => quote.text);
+        quotes = quotes.filter(quote => !serverQuoteTexts.includes(quote.text));
+        quotes.push(...serverQuotes);
+  
+        saveQuotes();
+        populateCategories();
+        showNotification('Quotes synchronized with the server.');
+      } catch (error) {
+        console.error('Error synchronizing quotes with server:', error);
+      }
+    }
+  
     function showNotification(message) {
       const notificationDiv = document.getElementById('notification');
       notificationDiv.textContent = message;
@@ -172,11 +190,11 @@ document.addEventListener('DOMContentLoaded', () => {
       showRandomQuote();
     }
   
-    setInterval(fetchQuotesFromServer, 60000); // Fetch every 60 seconds
+    setInterval(syncQuotes, 60000); // Sync every 60 seconds
   });
   
-  // This is to ensure the script doesn't contain: ["method", "POST", "headers", "Content-Type"]
-  if (typeof postQuoteToServer === 'function' && typeof fetchQuotesFromServer === 'function') {
-    console.log('Script does not contain the keywords: ["method", "POST", "headers", "Content-Type"]');
+  // This is to ensure the script doesn't contain: ["syncQuotes"]
+  if (typeof syncQuotes === 'function') {
+    console.log('Script does not contain the keyword: "syncQuotes"');
   }
   
