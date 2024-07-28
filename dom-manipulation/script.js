@@ -10,32 +10,30 @@ document.addEventListener('DOMContentLoaded', () => {
       localStorage.setItem('quotes', JSON.stringify(quotes));
     }
   
-    // Function to get unique categories from quotes
-    function getCategories() {
-      const categories = quotes.map(quote => quote.category);
-      return [...new Set(categories)];
+    // Function to extract unique categories from quotes
+    function getUniqueCategories() {
+      const categoriesSet = new Set();
+      quotes.forEach(quote => {
+        categoriesSet.add(quote.category);
+      });
+      return Array.from(categoriesSet);
     }
   
-    // Function to populate category filter dropdown
-    function populateCategoryFilter() {
-      const categoryFilter = document.getElementById('categoryFilter');
-      const categories = getCategories();
-  
-      // Clear existing options
-      categoryFilter.innerHTML = '<option value="all">All Categories</option>';
-  
-      // Populate dropdown with unique categories
+    // Function to populate category dropdown
+    function populateCategoryDropdown() {
+      const dropdown = document.getElementById('categoryFilter');
+      dropdown.innerHTML = '<option value="all">All Categories</option>';
+      const categories = getUniqueCategories();
       categories.forEach(category => {
         const option = document.createElement('option');
         option.value = category;
         option.textContent = category;
-        categoryFilter.appendChild(option);
+        dropdown.appendChild(option);
       });
   
-      // Set last selected category if available
       const lastSelectedCategory = localStorage.getItem('selectedCategory');
       if (lastSelectedCategory) {
-        categoryFilter.value = lastSelectedCategory;
+        dropdown.value = lastSelectedCategory;
       }
     }
   
@@ -72,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('newQuoteText').value = '';
         document.getElementById('newQuoteCategory').value = '';
         saveQuotes();
-        populateCategoryFilter();
+        populateCategoryDropdown();
         alert('New quote added successfully!');
       } else {
         alert('Please enter both a quote and a category.');
@@ -124,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const importedQuotes = JSON.parse(event.target.result);
         quotes.push(...importedQuotes);
         saveQuotes();
-        populateCategoryFilter();
+        populateCategoryDropdown();
         alert('Quotes imported successfully!');
       };
       fileReader.readAsText(event.target.files[0]);
@@ -139,8 +137,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Create the add quote form
     createAddQuoteForm();
   
-    // Populate category filter dropdown
-    populateCategoryFilter();
+    // Populate category dropdown
+    populateCategoryDropdown();
   
     // Show the last viewed quote from session storage if available, otherwise show an initial random quote
     const lastQuote = JSON.parse(sessionStorage.getItem('lastQuote'));
