@@ -7,18 +7,15 @@
 </head>
 <body>
   <h1>Dynamic Quote Generator</h1>
+  <div id="quoteDisplay"></div>
+  <button id="newQuote">Show New Quote</button>
+  <button id="exportQuotes">Export Quotes</button>
   <select id="categoryFilter" onchange="filterQuotes()">
     <option value="all">All Categories</option>
   </select>
-  <div id="quoteDisplay"></div>
-  <button id="newQuote">Show New Quote</button>
-  
-  <!-- Add Quote Form will be dynamically created here -->
-  
-  <!-- Import and Export Buttons -->
-  <button id="exportQuotes">Export Quotes</button>
   <input type="file" id="importFile" accept=".json" onchange="importFromJsonFile(event)" />
-  
+  <div id="notification"></div>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
