@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
       return Array.from(categoriesSet);
     }
   
-    // Function to fill category dropdown
+    // Function to update the category dropdown
     function updateCategoryDropdown() {
       const dropdown = document.getElementById('categoryFilter');
       dropdown.innerHTML = '<option value="all">All Categories</option>';
