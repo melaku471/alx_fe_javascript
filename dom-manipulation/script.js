@@ -19,8 +19,8 @@ document.addEventListener('DOMContentLoaded', () => {
       return Array.from(categoriesSet);
     }
   
-    // Function to populate category dropdown
-    function populateCategoryDropdown() {
+    // Function to fill category dropdown
+    function updateCategoryDropdown() {
       const dropdown = document.getElementById('categoryFilter');
       dropdown.innerHTML = '<option value="all">All Categories</option>';
       const categories = getUniqueCategories();
@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('newQuoteText').value = '';
         document.getElementById('newQuoteCategory').value = '';
         saveQuotes();
-        populateCategoryDropdown();
+        updateCategoryDropdown();
         alert('New quote added successfully!');
       } else {
         alert('Please enter both a quote and a category.');
@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const importedQuotes = JSON.parse(event.target.result);
         quotes.push(...importedQuotes);
         saveQuotes();
-        populateCategoryDropdown();
+        updateCategoryDropdown();
         alert('Quotes imported successfully!');
       };
       fileReader.readAsText(event.target.files[0]);
@@ -134,11 +134,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Event listener for "Export Quotes" button
     document.getElementById('exportQuotes').addEventListener('click', exportQuotes);
   
+    // Event listener for the category dropdown change
+    document.getElementById('categoryFilter').addEventListener('change', filterQuotes);
+  
     // Create the add quote form
     createAddQuoteForm();
   
     // Populate category dropdown
-    populateCategoryDropdown();
+    updateCategoryDropdown();
   
     // Show the last viewed quote from session storage if available, otherwise show an initial random quote
     const lastQuote = JSON.parse(sessionStorage.getItem('lastQuote'));
