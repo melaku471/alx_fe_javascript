@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
         saveQuotes();
         populateCategories();
-        showNotification('Quotes synchronized with the server.');
+        showNotification('Quotes synced with server!');
       } catch (error) {
         console.error('Error synchronizing quotes with server:', error);
       }
@@ -192,9 +192,4 @@ document.addEventListener('DOMContentLoaded', () => {
   
     setInterval(syncQuotes, 60000); // Sync every 60 seconds
   });
-  
-  // This is to ensure the script doesn't contain: ["syncQuotes"]
-  if (typeof syncQuotes === 'function') {
-    console.log('Script does not contain the keyword: "syncQuotes"');
-  }
   
